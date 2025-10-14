@@ -1,0 +1,55 @@
+# .github/workflows/ci.yml
+
+name: CI/CD - Testing y Despliegue Condicional a Vercel
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Código
+      uses: actions/checkout@v4
+    - name: Usar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x # Versión recomendada
+        cache: 'npm'
+    - name: Instalar Dependencias
+      run: npm install
+    - name: Ejecutar Pruebas Unitarias
+      # Si este comando falla, el job 'test' falla y el job 'deploy' no se ejecuta
+      run: npm test
+
+  deploy:
+    # 1. Este job SOLO se ejecuta si el job 'test' ha sido exitoso
+    needs: test 
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Código
+      uses: actions/checkout@v4
+
+    - name: Usar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+        cache: 'npm'
+        
+    - name: Instalar Vercel CLI
+      # Vercel CLI se usará para iniciar el despliegue manualmente
+      run: npm install -g vercel
+
+    - name: Desplegar a Vercel (Solo si las pruebas pasaron)
+      env:
+        # 2. Se usa el token de Vercel para autenticación (debe ser una variable secreta)
+        VERCEL_TOKEN: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+      run: |
+        # 3. Este comando inicia el despliegue a Vercel
+        vercel pull --yes --environment=production
+        vercel build
+        vercel deploy --prebuilt
