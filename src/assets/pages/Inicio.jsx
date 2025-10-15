@@ -2,8 +2,6 @@
 import React from 'react';
 // Importaciones ajustadas para subir un nivel (..) y entrar a 'components'
 // Puse Header.jsx porque no encontraba en components el Header entonces puse el nombre igual
-import Header from '../components/header.jsx'; 
-import Footer from '../components/Footer'; 
 
 // Componente Hero (sección principal de tu index.html)
 const Hero = () => (
@@ -43,7 +41,6 @@ const ProductGrid = () => (
 const Inicio = () => {
   return (
     <>
-      <Header />
       <main className="container">
         <Hero />
       </main>
@@ -57,7 +54,6 @@ const Inicio = () => {
           <a href="productos.html" className="btn" style={{width: 'auto', padding: '10px 30px'}}>Ver todos los productos</a>
       </div>
 
-      <Footer />
     </>
   );
 };

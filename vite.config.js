@@ -14,6 +14,6 @@ export default defineConfig({
         globals: true,
         // 2. Carga un archivo de configuración antes de cada prueba
         //    (Necesario para usar 'toBeInTheDocument' de React Testing Library)
-        setupFiles: './src/setupTests.js',
+        
     },
 })

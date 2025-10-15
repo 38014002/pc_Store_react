@@ -21,4 +21,8 @@ vi.mock('../components/Footer', () => ({
 
 describe('Pruebas de la Página <Inicio />', () => {
     // ... las pruebas aquí
+    it ("deberia mostrar titulo", () =>{ 
+        const {getByText} = render (<Inicio />)
+        expect(getByText("Productos Destacados")).toBeTruthy( )
+     } )
 });
