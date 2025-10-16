@@ -7,23 +7,24 @@ const Header = () => {
     <header className="site-header">
       <div className="container header-flex">
         {/* LOGO */}
-        <img src="assets/css/img/img1.png" alt="Logo de MiTienda" className="logo-img" />
+        <img src="img/img1.png" alt="Logo de MiTienda" className="logo-img" />
         <h1 className="logo">PC STORE</h1>
 
         {/* NAVEGACIÓN PRINCIPAL */}
         <nav className="main-nav">
          <NavLink to="/" end>Inicio</NavLink>
          <NavLink to="/Producto" end>Producto</NavLink>
-          <a href="nosotros.html">Nosotros</a>
-          <a href="contacto.html">Contacto</a>
+        <NavLink to="/nosotros">Nosotros</NavLink>
+        <NavLink to="/contacto">Contacto</NavLink>
         </nav>
 
+
         {/* SESIÓN Y CARRITO */}
-        <div className="session">
-          <a href="iniciar sesion.html">Iniciar sesión</a> | 
-          <a href="registro.html">Registrar usuario</a>
+      <div className="session">
+        <NavLink to="/iniciar-sesion">Iniciar sesión</NavLink> | 
+        <NavLink to="/registro">Registrar usuario</NavLink>
           {/* El (0) será dinámico con React */}
-          <a href="carrito.html" className="cart">Carrito 🛒 (0)</a>
+        <NavLink to="/carrito" className="cart">Carrito 🛒 (0)</NavLink>
         </div>
       </div>
     </header>
@@ -31,3 +32,5 @@ const Header = () => {
 };
 
 export default Header;
+
+
