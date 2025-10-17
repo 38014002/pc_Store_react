@@ -1,6 +1,6 @@
 // src/components/Header.jsx
 import React from 'react';
-import { NavLink } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -13,7 +13,7 @@ const Header = () => {
         {/* NAVEGACIÓN PRINCIPAL */}
         <nav className="main-nav">
          <NavLink to="/" end>Inicio</NavLink>
-         <NavLink to="/Producto" end>Producto</NavLink>
+         <NavLink to="/Producto" end>Productos</NavLink>
         <NavLink to="/nosotros">Nosotros</NavLink>
         <NavLink to="/contacto">Contacto</NavLink>
         </nav>

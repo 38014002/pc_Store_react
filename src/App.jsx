@@ -16,6 +16,7 @@ import GestionUsuario from './assets/pages/GestionUsuario';
 import GestionProducto from './assets/pages/GestionProducto';
 import Administrador from './assets/pages/Administrador';
 
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -33,12 +34,15 @@ function App() {
           <Route path="iniciar-sesion" element={<IniciarSesion />} />
           <Route path="gestion-usuario" element={<GestionUsuario />} />
           <Route path="gestion-producto" element={<GestionProducto />} />
-          <Route path="Administrador" element={<Administrador />} />
+          <Route path="administrador" element={<Administrador />} />
         </Routes>
       </BrowserRouter>
       <Footer />
     </>
   );
 }
+
+
+
 
 export default App;

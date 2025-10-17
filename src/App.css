@@ -610,3 +610,24 @@ main {
     padding-top: 140px;
   }
 }
+/* Animación suave para los botones */
+.animated-button {
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.animated-button:hover {
+  transform: scale(1.05);
+  background-color: #2563eb; /* Azul un poco más oscuro */
+}
+
+/* Animación suave para las tarjetas de productos */
+.product-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+

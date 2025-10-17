@@ -1,25 +1,39 @@
-// src/pages/IniciarSesion.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // React Router DOM
+import { useNavigate } from 'react-router-dom';
+
+// Componente Button
+const Button = ({ onClick, children, variant = 'primary', className = '', ...props }) => {
+  const baseStyles = 'w-full px-6 py-3 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-opacity-75 transition-transform transform hover:scale-105 duration-300 ease-in-out';
+  const getVariantStyles = () => {
+    switch (variant) {
+      case 'secondary': return 'bg-gray-700 text-white hover:bg-gray-800 focus:ring-gray-600';
+      case 'danger': return 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500';
+      default: return 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500';
+    }
+  };
+  return (
+    <button onClick={onClick} className={`${baseStyles} ${getVariantStyles()} ${className}`} {...props}>
+      {children}
+    </button>
+  );
+};
 
 const IniciarSesion = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState(''); // si quieres validar contraseña
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // evita recargar la página
+    e.preventDefault();
 
     const correo = email.trim();
 
-    if (!correo) return; // si el campo está vacío, no hacer nada
+    if (!correo) return;
 
     if (correo.endsWith('@duocuc.cl')) {
-      // Redirige a la página de administrador
-      navigate('/administrador');
+      navigate('/administrador'); // Redirige a Administrador
     } else {
-      // Redirige a la página de inicio o se queda en login
-      navigate('/');
+      navigate('/'); // Redirige al inicio u otra página de usuario
     }
   };
 
@@ -51,8 +65,8 @@ const IniciarSesion = () => {
               placeholder="Tu contraseña"
             />
           </div>
-
-          <button type="submit">Iniciar sesión</button>
+          
+          <Button type="submit">Iniciar sesión</Button>
         </form>
       </section>
     </main>
@@ -60,5 +74,3 @@ const IniciarSesion = () => {
 };
 
 export default IniciarSesion;
-
-
