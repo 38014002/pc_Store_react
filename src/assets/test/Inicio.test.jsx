@@ -1,28 +1,22 @@
-// src/tests/Inicio.test.jsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import Inicio from '../pages/Inicio';
+import { describe, it, expect } from 'vitest';
 
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest'; // <<< 'vi' importado aquí
-import Inicio from '../pages/Inicio'; 
+describe('Página <Inicio />', () => {
+  it('debería mostrar titulo y botones', () => {
+    render(
+      <MemoryRouter>
+        <Inicio />
+      </MemoryRouter>
+    );
 
-// VI.MOCK DEBE ESTAR AL INICIO DEL ARCHIVO
+    const titulo = screen.getByText(/TIENDA ONLINE PC STORE/i);
+    expect(titulo).toBeInTheDocument();
 
+    const botones = screen.getAllByText(/Ver productos/i);
+    expect(botones.length).toBeGreaterThan(0);
 
-// Mock de Header: La sintaxis correcta (retornando 'default')
-vi.mock('../components/Header', () => ({ 
-    default: () => <header data-testid="mock-header">Mock Header</header> 
-}));
-
-// Mock de Footer
-vi.mock('../components/Footer', () => ({ 
-    default: () => <footer data-testid="mock-footer">Mock Footer</footer> 
-}));
-// ===============================================
-
-
-describe('Pruebas de la Página <Inicio />', () => {
-    // ... las pruebas aquí
-    it ("deberia mostrar titulo", () =>{ 
-        const {getByText} = render (<Inicio />)
-        expect(getByText("Productos Destacados")).toBeTruthy( )
-     } )
+    fireEvent.click(botones[0]);
+  });
 });

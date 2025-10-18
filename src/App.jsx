@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route, useNavigate, NavLink } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './assets/components/header';
 import Footer from './assets/components/Footer';
 
@@ -16,18 +16,24 @@ import GestionUsuario from './assets/pages/GestionUsuario';
 import GestionProducto from './assets/pages/GestionProducto';
 import Administrador from './assets/pages/Administrador';
 
-
 function App() {
-  const [count, setCount] = useState(0);
+  const [carrito, setCarrito] = useState(() => {
+    return JSON.parse(localStorage.getItem("carrito")) || [];
+  });
+
+  // Sincronizar carrito con localStorage
+  useEffect(() => {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+  }, [carrito]);
 
   return (
     <>
       <BrowserRouter>
-        <Header />
+        <Header carrito={carrito} />
         <Routes>
           <Route index element={<Inicio />} />
-          <Route path="producto" element={<Producto />} />
-          <Route path="carrito" element={<Carrito />} />
+          <Route path="producto" element={<Producto carrito={carrito} setCarrito={setCarrito} />} />
+          <Route path="carrito" element={<Carrito carrito={carrito} setCarrito={setCarrito} />} />
           <Route path="contacto" element={<Contacto />} />
           <Route path="nosotros" element={<Nosotros />} />
           <Route path="registro" element={<Registro />} />
@@ -41,8 +47,5 @@ function App() {
     </>
   );
 }
-
-
-
 
 export default App;

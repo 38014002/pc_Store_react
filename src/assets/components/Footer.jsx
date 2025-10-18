@@ -1,11 +1,19 @@
-// src/components/Footer.jsx
-import React from 'react';
+import React, { useState } from 'react';
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Email suscrito:", email);
+    alert("Gracias por suscribirte!");
+    setEmail("");
+  };
+
   return (
     <footer className="site-footer">
       <div className="container footer-grid">
-        {/* SECCIÓN DE REDES SOCIALES */}
+        {/* Redes Sociales */}
         <div>
           <h4>Redes Sociales</h4>
           <a href="#">Instagram</a><br />
@@ -13,16 +21,21 @@ const Footer = () => {
           <a href="#">Tik Tok</a>
         </div>
 
-        {/* SECCIÓN DE NEWSLETTER */}
+        {/* Newsletter */}
         <div>
           <h4>Newsletter</h4>
-          <form>
-            <input type="email" placeholder="Ingresa tu email" />
+          <form onSubmit={handleSubmit}>
+            <input
+              type="email"
+              placeholder="Ingresa tu email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <button type="submit">Suscribirse</button>
           </form>
         </div>
 
-        {/* COPYRIGHT */}
+        {/* Copyright */}
         <div>
           <p>&copy; 2025 PCSTORE. Todos los derechos reservados.</p>
         </div>

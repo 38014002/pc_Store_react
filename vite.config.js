@@ -1,19 +1,11 @@
-// vite.config.js
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
 
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
-// https://vite.dev/config/
 export default defineConfig({
-    plugins: [react()],
-    
-    // Configuración extendida de Vitest
-    test: {
-        environment: "jsdom",
-        // 1. Permite usar funciones globales como 'describe', 'it', 'expect', y 'vi'
-        globals: true,
-        // 2. Carga un archivo de configuración antes de cada prueba
-        //    (Necesario para usar 'toBeInTheDocument' de React Testing Library)
-        
-    },
-})
+  plugins: [react()],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/setupTests.js', // si necesitas setup
+  },
+});

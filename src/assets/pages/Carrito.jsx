@@ -1,29 +1,36 @@
-// src/pages/Carrito.jsx
-import React from 'react';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const Carrito = () => {
+const Carrito = ({ carrito, setCarrito }) => {
+  const navigate = useNavigate();
+  const total = carrito.reduce((acc, item) => acc + item.precio, 0);
+
+  const eliminarProducto = (id) => {
+    const nuevoCarrito = carrito.filter(item => item.id !== id);
+    setCarrito(nuevoCarrito);
+  };
+
   return (
     <main className="container">
       <h1>Tu Carrito</h1>
-
-      {/* Mensaje si no hay productos */}
-      <div id="mensaje-vacio">
+      {carrito.length === 0 ? (
         <p>No hay productos en el carrito.</p>
-      </div>
-
-      {/* Lista de productos (añadidos dinámicamente) */}
-      <section id="lista-carrito" style={{ display: 'none' }}></section>
-
-      {/* Total y acciones */}
-      <section id="total-carrito" style={{ display: 'none' }}>
-        <h2>
-          Total: $<span id="total">0</span>
-        </h2>
-        <div className="cart-actions">
-          <a href="/productos" className="btn">← Seguir comprando</a>
-          <button className="btn">Finalizar compra</button>
-        </div>
-      </section>
+      ) : (
+        <>
+          {carrito.map(producto => (
+            <div key={producto.id} className="item-carrito">
+              <img src={producto.imagen} alt={producto.nombre} width={100} />
+              <div>
+                <p>{producto.nombre}</p>
+                <p>Precio: ${producto.precio.toLocaleString()}</p>
+              </div>
+              <button onClick={() => eliminarProducto(producto.id)}>Eliminar</button>
+            </div>
+          ))}
+          <h2>Total: ${total.toLocaleString()}</h2>
+          <button onClick={() => navigate("/producto")}>← Seguir comprando</button>
+        </>
+      )}
     </main>
   );
 };

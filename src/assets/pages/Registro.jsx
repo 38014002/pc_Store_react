@@ -1,76 +1,120 @@
-// src/pages/Registro.jsx
-import React from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Registro = () => {
+  const navigate = useNavigate(); // Para redirigir
+  const [formData, setFormData] = useState({
+    nombre: "",
+    email: "",
+    password: "",
+    password2: "",
+    tyc: false,
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Validaciones simples
+    if (
+      !formData.nombre ||
+      !formData.email ||
+      !formData.password ||
+      !formData.password2 ||
+      !formData.tyc
+    ) {
+      alert("Por favor completa todos los campos y acepta los términos.");
+      return;
+    }
+
+    if (formData.password !== formData.password2) {
+      alert("Las contraseñas no coinciden.");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      alert("La contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
+
+    // Cuenta creada correctamente
+    alert("Cuenta creada exitosamente!");
+    console.log("Datos del formulario:", formData);
+
+    // Redirigir a inicio
+    navigate("/"); // "/" es la ruta de Inicio
+  };
+
   return (
     <main className="container">
       <section className="form-wrap">
         <h2>Crea tu cuenta</h2>
-        <form id="form-registro" noValidate autoComplete="on">
-          {/* Nombre completo */}
+        <form id="form-registro" noValidate autoComplete="on" onSubmit={handleSubmit}>
           <div className="field">
             <label htmlFor="nombre">Nombre completo</label>
             <input
               id="nombre"
               name="nombre"
               type="text"
-              required
               placeholder="Ej: Daniela Pérez"
-              autoComplete="name"
+              value={formData.nombre}
+              onChange={handleChange}
             />
-            <small className="error" id="err-nombre"></small>
           </div>
 
-          {/* Correo electrónico */}
           <div className="field">
             <label htmlFor="email">Correo electrónico</label>
             <input
               id="email"
               name="email"
               type="email"
-              required
               placeholder="ejemplo@correo.com"
-              autoComplete="email"
+              value={formData.email}
+              onChange={handleChange}
             />
-            <small className="error" id="err-email"></small>
           </div>
 
-          {/* Contraseña */}
           <div className="field">
             <label htmlFor="password">Contraseña</label>
             <input
               id="password"
               name="password"
               type="password"
-              required
-              minLength={6}
               placeholder="Mínimo 6 caracteres"
-              autoComplete="new-password"
+              value={formData.password}
+              onChange={handleChange}
             />
-            <small className="error" id="err-password"></small>
           </div>
 
-          {/* Confirmar contraseña */}
           <div className="field">
             <label htmlFor="password2">Repite la contraseña</label>
             <input
               id="password2"
               name="password2"
               type="password"
-              required
-              autoComplete="new-password"
+              value={formData.password2}
+              onChange={handleChange}
             />
-            <small className="error" id="err-password2"></small>
           </div>
 
-          {/* Aceptar términos */}
           <div className="field checkbox">
-            <input id="tyc" name="tyc" type="checkbox" required />
+            <input
+              id="tyc"
+              name="tyc"
+              type="checkbox"
+              checked={formData.tyc}
+              onChange={handleChange}
+            />
             <label htmlFor="tyc">Acepto Términos y Condiciones</label>
-            <small className="error" id="err-tyc"></small>
           </div>
 
-          {/* Botón */}
           <button type="submit">Crear cuenta</button>
         </form>
       </section>
