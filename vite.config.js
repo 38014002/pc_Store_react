@@ -7,5 +7,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.js', // si necesitas setup
+    reporter: 'verbose', // Siempre mostrar detalles de las pruebas
   },
 });
