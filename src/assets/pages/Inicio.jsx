@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 
-// Hero
+// ============================
+// HERO (como lo tenías antes)
+// ============================
 const Hero = ({ irAProductos }) => (
   <section
     style={{
@@ -23,6 +25,7 @@ const Hero = ({ irAProductos }) => (
       </p>
       <Button onClick={irAProductos}>Ver productos</Button>
     </div>
+
     <div style={{ marginBottom: "2rem" }}>
       <img
         src="/img/BANNER-pc_componentes_celular.webp"
@@ -33,7 +36,9 @@ const Hero = ({ irAProductos }) => (
   </section>
 );
 
-// Productos Destacados
+// ===================================
+// PRODUCTOS DESTACADOS (como antes)
+// ===================================
 const ProductGrid = () => {
   const productos = [
     {
@@ -78,9 +83,7 @@ const ProductGrid = () => {
             transition: "transform 0.3s ease",
             cursor: "pointer",
           }}
-          className="producto-card"
         >
-          {/* Contenedor para centrar y mostrar la imagen completa */}
           <div
             style={{
               width: "100%",
@@ -109,9 +112,19 @@ const ProductGrid = () => {
   );
 };
 
-
+// ================================
+// INICIO — Restaurado + CORRECTO
+// ================================
 const Inicio = () => {
   const navigate = useNavigate();
+
+  // 🔍 TEST: Verificar conexión FRONT ↔ BACK, sin romper tu página
+  useEffect(() => {
+    fetch("http://localhost:3000/products")
+      .then((r) => r.json())
+      .then((data) => console.log("Productos →", data))
+      .catch((err) => console.error("ERROR:", err));
+  }, []);
 
   const irAProductos = () => {
     navigate("/producto");
@@ -120,10 +133,20 @@ const Inicio = () => {
   return (
     <div>
       <Hero irAProductos={irAProductos} />
-      <h2 style={{ textAlign: "center", fontSize: "2rem", fontWeight: "bold", marginTop: "2rem" }}>
+
+      <h2
+        style={{
+          textAlign: "center",
+          fontSize: "2rem",
+          fontWeight: "bold",
+          marginTop: "2rem",
+        }}
+      >
         Productos Destacados
       </h2>
+
       <ProductGrid />
+
       <div style={{ textAlign: "center", margin: "3rem 0" }}>
         <Button onClick={irAProductos}>Ver todos los productos</Button>
       </div>

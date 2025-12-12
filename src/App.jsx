@@ -4,6 +4,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './assets/components/header';
 import Footer from './assets/components/Footer';
 
+// Protección de rutas
+import ProtectedRoute from './assets/components/ProtectedRoute';
+import AdminRoute from './assets/components/AdminRoute';
+
 // Páginas
 import Inicio from './assets/pages/Inicio';
 import Producto from './assets/pages/Producto';
@@ -21,7 +25,6 @@ function App() {
     return JSON.parse(localStorage.getItem("carrito")) || [];
   });
 
-  // Sincronizar carrito con localStorage
   useEffect(() => {
     localStorage.setItem("carrito", JSON.stringify(carrito));
   }, [carrito]);
@@ -30,7 +33,9 @@ function App() {
     <>
       <BrowserRouter>
         <Header carrito={carrito} />
+
         <Routes>
+          {/* Rutas públicas */}
           <Route index element={<Inicio />} />
           <Route path="producto" element={<Producto carrito={carrito} setCarrito={setCarrito} />} />
           <Route path="carrito" element={<Carrito carrito={carrito} setCarrito={setCarrito} />} />
@@ -38,11 +43,39 @@ function App() {
           <Route path="nosotros" element={<Nosotros />} />
           <Route path="registro" element={<Registro />} />
           <Route path="iniciar-sesion" element={<IniciarSesion />} />
-          <Route path="gestion-usuario" element={<GestionUsuario />} />
-          <Route path="gestion-producto" element={<GestionProducto />} />
-          <Route path="administrador" element={<Administrador />} />
+
+          {/* Rutas para usuarios logueados */}
+
+          <Route
+            path="gestion-usuario"
+            element={
+              <AdminRoute> // 
+                <GestionUsuario />
+              </AdminRoute> // <-- Etiqueta de cierre
+            }
+          />
+
+          {/* Rutas exclusivas del administrador */}
+          <Route
+            path="gestion-producto"
+            element={
+              <AdminRoute>
+                <GestionProducto />
+              </AdminRoute>
+            }
+          />
+
+          <Route
+            path="administrador"
+            element={
+              <AdminRoute>
+                <Administrador />
+              </AdminRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
+
       <Footer />
     </>
   );
