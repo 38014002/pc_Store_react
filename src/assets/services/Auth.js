@@ -6,11 +6,11 @@ const API_BASE_URL = 'http://localhost:3000';
 // 1. LOGIN / LOGOUT / SESSION
 // ============================================
 
-export async function login(email, password) {
+export async function login(correo, password) {
     const response = await fetch(`${API_BASE_URL}/iniciarsesion`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ correo, password })
     });
 
     const data = await response.json();

@@ -9,7 +9,7 @@ const BASE_URL_INICIARSESION = `${BASE_URL_BACKEND}/iniciarsesion`;
 // FUNCIÓN PARA INICIAR SESIÓN
 // ============================================
 
-export async function iniciarSesion(correo, password) {
+export async function iniciarSesion(email, password) {
     try {
         const res = await fetch(BASE_URL_INICIARSESION, {
             method: "POST",
@@ -17,7 +17,7 @@ export async function iniciarSesion(correo, password) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                correo,
+                email,
                 password
             })
         });

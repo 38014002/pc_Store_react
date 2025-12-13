@@ -1,8 +1,9 @@
+import { fetchWithAuth } from "./Auth.js";
 
-const BASE_URL = "http://localhost:3000/products";
+const BASE_URL = "/products";
 
 export async function getProductos() {
-    return fetch(BASE_URL)
+    return fetchWithAuth(BASE_URL)
         .then(res => res.json())
         .catch(e => console.error(e));
 }

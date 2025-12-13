@@ -11,8 +11,8 @@ const AdminRoute = ({ children }) => {
     return <Navigate to="/iniciar-sesion" replace />;
   }
 
-  // CRÍTICO: Compara usando toLowerCase() para que coincida con "administrador" de la DB
-  if (usuario.tipo && usuario.tipo.toLowerCase() !== "administrador") {
+  // CRÍTICO: Compara usando toLowerCase() para que coincida con "admin" de la DB
+  if (usuario.tipo && usuario.tipo.toLowerCase() !== "admin") {
     return <Navigate to="/" replace />;
   }
 

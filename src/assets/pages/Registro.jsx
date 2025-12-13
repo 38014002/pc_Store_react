@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registrarUsuario } from "../services/registro";
 
 const Registro = () => {
   const navigate = useNavigate(); // Para redirigir
@@ -19,7 +20,7 @@ const Registro = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validaciones simples
@@ -44,6 +45,15 @@ const Registro = () => {
       return;
     }
 
+    const usuarioNuevo = await registrarUsuario({
+      nombre: formData.nombre,
+      email: formData.email,
+      password: formData.password,
+      password2: formData.password2
+    })
+    
+    console.log (usuarioNuevo)
+    
     // Cuenta creada correctamente
     alert("Cuenta creada exitosamente!");
     console.log("Datos del formulario:", formData);

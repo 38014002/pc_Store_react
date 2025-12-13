@@ -21,7 +21,7 @@ const IniciarSesion = () => {
       console.log("LOGIN ÉXITO →", usuario);
 
       // Redirección según rol
-      if (usuario.tipo.toLowerCase() === "administrador") {
+      if (usuario.tipo.toLowerCase() === "admin") {
         navigate('/administrador');
       } else {
         navigate('/');
