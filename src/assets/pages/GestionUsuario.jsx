@@ -42,11 +42,11 @@ const GestionUsuarios = () => {
   const [formData, setFormData] = useState({
     nombre: '',
     correo: '',
-    tipo: 'vendedor',
+    tipo: 'cliente', // Valor por defecto
     password: '',
   });
 
-  const [editId, setEditId] = useState(null);
+  const [editId, setEditId] = useState(null); // Esto ahora será el correo del usuario a editar
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -79,17 +79,17 @@ const GestionUsuarios = () => {
 
     try {
       if (editId) {
-        // Si password está vacío, no se envía
+        // Si el password está vacío, no se envía para no sobreescribirlo
         if (!dataToSend.password) delete dataToSend.password;
 
-        await updateUsuario(editId, dataToSend);
+        await updateUsuario(editId, dataToSend); // editId es el correo
         alert('Usuario actualizado correctamente.');
       } else {
         await createUsuario(dataToSend);
         alert('Usuario creado correctamente.');
       }
 
-      setFormData({ nombre: '', correo: '', tipo: 'vendedor', password: '' });
+      setFormData({ nombre: '', correo: '', tipo: 'cliente', password: '' });
       setEditId(null);
       loadUsuarios();
 
@@ -98,27 +98,29 @@ const GestionUsuarios = () => {
     }
   };
 
+  // --- CORRECCIÓN 1: Usar 'usuario.correo' para identificar qué editar ---
   const handleEdit = (usuario) => {
-    setEditId(usuario.id);
+    setEditId(usuario.correo); // <--- CAMBIO CLAVE AQUÍ
     setFormData({
       nombre: usuario.nombre,
       correo: usuario.correo,
       tipo: usuario.tipo,
-      password: '',
+      password: '', // El campo de la contraseña se deja vacío por seguridad
     });
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('¿Eliminar este usuario?')) return;
+  const handleDelete = async (correo) => {
+    if (!window.confirm('¿Está seguro de que desea eliminar este usuario?')) return;
 
     try {
-      await deleteUsuario(id);
-      alert('Usuario eliminado.');
+      await deleteUsuario(correo);
+      alert('Usuario eliminado correctamente.');
       loadUsuarios();
     } catch (e) {
       setError(e.message);
     }
   };
+
 
   if (loading) return <div className="p-8 text-center">Cargando usuarios...</div>;
 
@@ -163,18 +165,19 @@ const GestionUsuarios = () => {
                 value={formData.correo}
                 onChange={handleInputChange}
                 required
-                className="mt-1 w-full border rounded-md p-2"
+                disabled={!!editId} // No se puede editar el correo
+                className="mt-1 w-full border rounded-md p-2 bg-gray-100 disabled:cursor-not-allowed"
               />
             </div>
 
             <div>
-              <label className="block">Contraseña {editId && '(opcional)'}</label>
+              <label className="block">Contraseña {editId && '(dejar en blanco para no cambiar)'}</label>
               <input
                 id="usuario-password"
                 type="password"
                 value={formData.password}
                 onChange={handleInputChange}
-                required={!editId}
+                required={!editId} // Requerida solo al crear
                 className="mt-1 w-full border rounded-md p-2"
               />
             </div>
@@ -187,8 +190,8 @@ const GestionUsuarios = () => {
                 onChange={handleInputChange}
                 className="mt-1 w-full border rounded-md p-2"
               >
-                <option value="administrador">Administrador</option>
-                <option value="cliente">Cliente</option>
+                <option value="admin">Administrador</option>
+                <option value="usuario">Cliente</option>
               </select>
             </div>
 
@@ -196,10 +199,11 @@ const GestionUsuarios = () => {
 
             {editId && (
               <Button
+                type="button" // Importante para que no envíe el formulario
                 variant="secondary"
                 onClick={() => {
                   setEditId(null);
-                  setFormData({ nombre: '', correo: '', tipo: 'vendedor', password: '' });
+                  setFormData({ nombre: '', correo: '', tipo: '', password: '' });
                 }}
               >
                 Cancelar Edición
@@ -227,10 +231,10 @@ const GestionUsuarios = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {usuarios.length === 0 ? (
                   <tr>
-                    <td colSpan="5" className="text-center p-4 text-gray-500">No hay usuarios.</td>
+                    <td colSpan="5" className="text-center p-4 text-gray-500">No hay usuarios para mostrar.</td>
                   </tr>
                 ) : (
-                  usuarios.map((user) => (
+                  usuarios.map((user) => ( // La variable aquí es 'user'
                     <tr key={user.id} className="hover:bg-gray-50">
                       <td className="px-3 py-2">{user.id}</td>
                       <td className="px-3 py-2">{user.nombre}</td>
@@ -238,7 +242,8 @@ const GestionUsuarios = () => {
                       <td className="px-3 py-2 capitalize">{user.tipo}</td>
                       <td className="px-3 py-2 space-x-2">
                         <Button variant="secondary" onClick={() => handleEdit(user)} className="px-3 py-1">Editar</Button>
-                        <Button variant="danger" onClick={() => handleDelete(user.id)} className="px-3 py-1">Eliminar</Button>
+                        {/* --- CORRECCIÓN 2: Usar la variable correcta 'user' --- */}
+                        <Button variant="danger" onClick={() => handleDelete(user.correo)} className="px-3 py-1">Eliminar</Button>
                       </td>
                     </tr>
                   ))
