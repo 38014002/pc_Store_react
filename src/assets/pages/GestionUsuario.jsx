@@ -28,7 +28,7 @@ const Button = ({ onClick, children, variant = 'primary', className = '', ...pro
 
 const GestionUsuarios = () => {
   const navigate = useNavigate();
-  const isAdmin = checkUserRole('administrador');
+  const isAdmin = checkUserRole('admin');
 
   useEffect(() => {
     if (!isAdmin) {
@@ -188,7 +188,6 @@ const GestionUsuarios = () => {
                 className="mt-1 w-full border rounded-md p-2"
               >
                 <option value="administrador">Administrador</option>
-                <option value="vendedor">Vendedor</option>
                 <option value="cliente">Cliente</option>
               </select>
             </div>
